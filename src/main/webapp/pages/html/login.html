@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录页面</title>
+    <style>
+        .div1 {
+            display: none;
+            color: red;
+        }
+    </style>
+    <script src="/static/js/jquery.min.js"></script>
+    <script>
+        $(function () {
+            $('#register').click(function () {
+                // alert('ok');
+                //获取用户名和密码:
+                username = $('#username').val();
+                if (username == null) {
+                    alert("用户名不能为空");
+                    return;
+                }
+                password = $('#password').val();
+                if (password == null) {
+                    alert("密码不能为空");
+                    return;
+                }
+                $.ajax({
+                    url: "/user/login",
+                    type: "POST",
+                    data: {"username": username, "password": password},
+                    dataType: "json",
+
+                }).done(function (data) {
+                    if (data.code == 0) {
+                        location.href = "/resume/toList";
+
+                    } else {
+                        $('.div1').show().html(data.msg)
+
+                    }
+                })
+            });
+        });
+    </script>
+</head>
+<body>
+<div>
+    用户名:<input type="text" id="username"><br/>
+    密码<input type="password" id="password"><br/>
+    <input type="submit" value="登录" id="register">
+    <div class="div1"></div>
+</div>
+</body>
+</html>
